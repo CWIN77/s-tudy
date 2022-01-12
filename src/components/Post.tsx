@@ -11,8 +11,9 @@ const Container = styled.div`
   color:black;
   box-shadow: 0px 6px 16px 8px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
-  margin: 3vh;
-  margin-bottom: 8vh;
+  margin: 2vh;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
 `
 function Post({data}:any){
   // console.log(data)

@@ -3,6 +3,7 @@ import { ReactComponent as Svg_bgImg } from './svg/bgImg.svg';
 import { ReactComponent as Svg_search } from './svg/search.svg';
 import Post from './Post';
 import { useState } from 'react';
+import firebase from '../firebase';
 
 const Container = styled.div`
   display:flex;
@@ -47,24 +48,9 @@ const SearchBtn = styled.div`
 
 const data:number[] = [0,1,2,3,4];
 
-const useSearchInput = (initalvalue:String) => {
-  const [text,setText] = useState<String>(initalvalue);
-  const onChange = (e:any) => {
-    let canUpdate = true;
-    if(e.target.value.length >= 36 || e.target.value.includes('*')){
-      canUpdate = false;
-    }
-    if(canUpdate){
-      setText(e.target.value)
-    }
-  }
-  const value = String(text);
-  return {value,onChange}
-}
-
 function Content() {
-  const [isShow,setIsShow] = useState(true);
-  // const seachData = useSearchInput('');
+  const db = firebase.firestore();
+
   window.addEventListener('scroll',(e)=>{
     if(window.scrollY > 98){
       
@@ -73,15 +59,7 @@ function Content() {
 
   return (
     <Container>
-      {/* {
-        isShow && 
-        <>
-          <SearchBar type="text" placeholder='검색' {...seachData} />
-          <SearchBtn>
-            <Svg_search width={20} height={20} fill='white' />
-          </SearchBtn>
-        </>
-      } */}
+      <SearchBar type="text" placeholder='검색'/>  {/* 지워야함 */}
       {
         data &&
         data.map((doc,i)=>{

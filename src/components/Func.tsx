@@ -4,8 +4,9 @@ import { ReactComponent as Svg_bookmark } from './svg/bookmark.svg';
 import { ReactComponent as Svg_community } from './svg/community.svg';
 import { ReactComponent as Svg_logo } from './svg/logo.svg';
 import { ReactComponent as Svg_pencil } from './svg/pencil.svg';
-import { ReactComponent as Svg_tag } from './svg/tag.svg';
-import { useState } from 'react';
+import { ReactComponent as Svg_right } from './svg/right.svg';
+import { ReactComponent as Svg_left } from './svg/left.svg';
+import { useEffect, useState } from 'react';
 
 const Header = styled.div`
   position: fixed;
@@ -24,11 +25,9 @@ const Nav = styled.div`
   display:flex;
   justify-content: space-around;
   align-items: center;
-  border-radius: 15px;
   position: fixed;
-  width:100vw;
   height:54px;
-  bottom:0px;
+  bottom:-1px;
   padding:3px;
   box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.25);
   background-color : #363636;
@@ -42,36 +41,41 @@ const FuncBtn = styled.div`
   position: fixed;
   right:20px;
 `
-const ClickBox = styled.div`
-  width:100vw;
-  height:100vh;
-  z-index:0;
-  position:fixed;
-  top:0px;
-  left:0px;
-`
 
 function Func() {
   const [isShow,setIsShow] = useState<boolean>(true);
 
+  useEffect(()=>{
+    const doc = document.getElementsByClassName('Nav') as HTMLCollectionOf<HTMLElement>;
+    if(isShow){
+      doc[0].style.width = "100vw";
+    }else{
+      doc[0].style.width = "auto";
+    }
+  },[isShow])
   return (
-    <>
+    <div style={{display:'flex',justifyContent:'flex-end'}}>
       <Header>
         <Svg_logo />
         <FuncBtn />
       </Header>
-      {
-        isShow && 
-        <Nav>
-          <Svg_home width={26} height={26} fill='#36E0F8' />
-          <Svg_community width={26} height={26} fill='white' />
-          <Svg_bookmark width={26} height={26} fill='white' />
-          <Svg_tag width={26} height={26} fill='white' />
-          <Svg_pencil width={26} height={26} fill='white' />
-        </Nav>
-      }
-      {/* <ClickBox onClick={()=>{setIsShow(!isShow)}} /> */}
-    </>
+      <Nav className='Nav'>
+        {
+          isShow && 
+          <>
+            <Svg_home style={{padding:16}} width={24} height={24} fill='#36E0F8' />
+            <Svg_community style={{padding:16}} width={24} height={24} fill='white' />
+            <Svg_bookmark style={{padding:16}} width={24} height={24} fill='white' />
+            <Svg_pencil style={{padding:16}} width={24} height={24} fill='white' />
+          </>
+        }
+        {
+          isShow
+          ? <Svg_right style={{padding:16}} onClick={()=>{setIsShow(!isShow)}} width={24} height={24} fill='white' />
+          : <Svg_left style={{padding:14}} onClick={()=>{setIsShow(!isShow)}} width={24} height={24} fill='white' />
+        }
+      </Nav>
+    </div>
   );
 }
 
